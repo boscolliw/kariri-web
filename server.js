@@ -12,11 +12,12 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// Servir arquivos estáticos a partir da raiz do projeto
+app.use(express.static(path.join(__dirname)));
 
-// Rota para o frontend carregar a página principal
+// Rota principal para carregar o HTML
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // API: Produtos
