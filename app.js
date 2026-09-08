@@ -4,9 +4,53 @@ let carrinho = [];
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutos();
     carregarMuralAvisos();
+    verificarStatusAuth();
 });
 
-// CONTROLADOR DOS PAINÉIS RETRÁTEIS (DRAWERS)
+// MODAL DE AUTENTICAÇÃO
+function verificarStatusAuth() {
+    const usuarioLogado = localStorage.getItem("kariri_user");
+    const modal = document.getElementById("modal-auth");
+
+    if (!usuarioLogado && modal) {
+        modal.classList.remove("hidden");
+    } else if (usuarioLogado) {
+        const userEl = document.getElementById("user-display-name");
+        if (userEl) userEl.innerText = usuarioLogado;
+        if (modal) modal.classList.add("hidden");
+    }
+}
+
+function abrirModalAuth() {
+    const modal = document.getElementById("modal-auth");
+    if (modal) modal.classList.remove("hidden");
+    fecharTodosDrawers();
+}
+
+function fecharModalAuth() {
+    const modal = document.getElementById("modal-auth");
+    if (modal) modal.classList.add("hidden");
+}
+
+function acaoAuth(tipo) {
+    if (tipo === 'login') {
+        const nome = prompt("Digite seu nome de usuário ou e-mail:");
+        if (nome) {
+            localStorage.setItem("kariri_user", nome);
+            alert(`Bem-vindo de volta, ${nome}!`);
+            verificarStatusAuth();
+        }
+    } else if (tipo === 'cadastro') {
+        const nome = prompt("Digite seu nome completo para se cadastrar:");
+        if (nome) {
+            localStorage.setItem("kariri_user", nome);
+            alert(`Conta criada com sucesso! Bem-vindo, ${nome}!`);
+            verificarStatusAuth();
+        }
+    }
+}
+
+// CONTROLADOR DE DRAWERS
 function toggleDrawer(id) {
     const drawer = document.getElementById(id);
     const overlay = document.getElementById("overlay");
@@ -31,7 +75,7 @@ function fecharTodosDrawers() {
     if (overlay) overlay.classList.remove("active");
 }
 
-// BUSCAR PRODUTOS VIA API DO SERVIDOR
+// CARREGAR PRODUTOS DO SERVIDOR
 async function carregarProdutos() {
     try {
         const response = await fetch('/api/produtos');
@@ -73,7 +117,7 @@ function renderizarProdutos(lista) {
     });
 }
 
-// FILTROS DE PESQUISA E CATEGORIA
+// FILTROS
 function filtrarPorCategoria(cat) {
     const titulo = document.getElementById("titulo-categoria");
     if (titulo) titulo.innerText = cat === "TODAS" ? "Todos os Produtos" : cat;
@@ -93,7 +137,7 @@ function filtrarProdutos() {
     renderizarProdutos(filtrados);
 }
 
-// CARRINHO DE COMPRAS
+// CARRINHO
 function adicionarAoCarrinho(id) {
     const prod = todosProdutos.find(p => p.id === id);
     if (prod) {
@@ -134,7 +178,7 @@ function removerDoCarrinho(index) {
     atualizarCarrinho();
 }
 
-// BUSCAR MURAL DE AVISOS
+// MURAL DE AVISOS
 async function carregarMuralAvisos() {
     try {
         const response = await fetch('/api/comunicados');
