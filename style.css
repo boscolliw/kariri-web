@@ -30,7 +30,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* NAVBAR E CENTRALIZAÇÃO RÍGIDA DA LOGO */
+/* HEADER E GRID DE CENTRALIZAÇÃO */
 .navbar {
     background-color: var(--header-bg);
     position: sticky;
@@ -42,29 +42,16 @@ body {
 
 .nav-container {
     display: grid;
-    grid-template-columns: 60px 1fr 60px; /* Garante que esquerda e direita tenham o mesmo tamanho exato */
+    grid-template-columns: 60px 1fr 60px;
     align-items: center;
     padding: 8px 15px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.nav-left {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.nav-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
+.nav-left { display: flex; justify-content: flex-start; }
+.nav-center { display: flex; justify-content: center; align-items: center; }
+.nav-right { display: flex; justify-content: flex-end; align-items: center; }
 
 .btn-drawer-icon {
     background: transparent;
@@ -130,8 +117,10 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+}
+
+.modal-auth-overlay.hidden {
+    display: none !important;
 }
 
 .modal-auth-card {
@@ -179,37 +168,12 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: 0.2s;
 }
 
-.btn-primary {
-    background-color: var(--primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-}
-
-.btn-secondary {
-    background-color: #f0f0f0;
-    color: var(--text-color);
-}
-
-.btn-secondary:hover {
-    background-color: #e4e4e4;
-}
-
-.btn-guest {
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    margin-top: 5px;
-}
-
-.btn-guest:hover {
-    color: var(--text-color);
-}
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-primary:hover { background-color: var(--primary-dark); }
+.btn-secondary { background-color: #f0f0f0; color: var(--text-color); }
+.btn-guest { background: transparent; color: var(--text-muted); font-size: 0.85rem; }
 
 /* BUSCA */
 .search-bar-container {
@@ -243,7 +207,7 @@ body {
     cursor: pointer;
 }
 
-/* DRAWERS */
+/* DRAWERS LATERAIS */
 .drawer {
     position: fixed;
     top: 0; bottom: 0;
@@ -324,7 +288,7 @@ body {
 }
 .overlay.active { display: block; }
 
-/* CONTAINER & PRODUTOS */
+/* LAYOUT CATÁLOGO */
 .container { max-width: 1200px; margin: 15px auto; padding: 0 15px; }
 .banner-hero {
     background: linear-gradient(135deg, #ee4d2d, #ff7337);
