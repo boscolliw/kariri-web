@@ -14,11 +14,11 @@
         <span id="mural-texto">🚀 Entrega Expressa via Uber Flash em Juazeiro, Crato e Barbalha!</span>
     </div>
 
-    <!-- HEADER CLARO COM CENTRALIZAÇÃO PERFEITA DA LOGO -->
+    <!-- HEADER CLARO COM CENTRALIZAÇÃO DA LOGO -->
     <header class="navbar">
         <div class="nav-container">
             
-            <!-- ESQUERDA: APENAS O ÍCONE DE MENU -->
+            <!-- ESQUERDA: APENAS ÍCONE DE HAMBÚRGUER -->
             <div class="nav-left">
                 <button class="btn-drawer-icon" onclick="toggleDrawer('drawer-categorias')" title="Categorias">
                     <i class="fa-solid fa-bars"></i>
@@ -35,7 +35,7 @@
                 </a>
             </div>
 
-            <!-- DIREITA: PERFIL E CARRINHO -->
+            <!-- DIREITA: CARRINHO E PERFIL -->
             <div class="nav-right">
                 <button class="btn-icon" onclick="toggleCart()">
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -51,19 +51,19 @@
         <!-- BARRA DE BUSCA -->
         <div class="search-bar-container">
             <div class="search-input-box">
-                <input type="text" id="input-busca" placeholder="Buscar tomadas smart, relés, câmeras..." onkeyup="filtrarProdutos()">
+                <input type="text" id="input-busca" placeholder="Buscar tomadas smart, relés, coleiras GPS..." onkeyup="filtrarProdutos()">
                 <button><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
     </header>
 
-    <!-- MODAL INICIAL DE BOAS-VINDAS / AUTH -->
-    <div id="modal-auth" class="modal-auth-overlay">
+    <!-- MODAL DE ENTRADA / AUTH (INICIA OCULTO VIA CLASS HIDDEN) -->
+    <div id="modal-auth" class="modal-auth-overlay hidden">
         <div class="modal-auth-card">
             <div class="modal-auth-header">
                 <img src="logo.png" alt="KARIRI" class="modal-logo" onerror="this.style.display='none';">
                 <h3>Bem-vindo à KARIRI!</h3>
-                <p>Escolha como deseja prosseguir para ver as melhores ofertas de automação no Cariri.</p>
+                <p>Escolha como deseja prosseguir para ver as ofertas de automação e tecnologia no Cariri.</p>
             </div>
             
             <div class="modal-auth-actions">
