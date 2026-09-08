@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KARIRI Smart Gadgets | Automação e Tecnologia no Cariri</title>
     <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- MURAL / BANNER DE AVISO (ALIMENTADO PELO SEU PAINEL PYTHON) -->
+    <!-- MURAL / BANNER DE AVISO -->
     <div id="mural-aviso" class="mural-banner hidden">
         <span id="mural-texto">🚀 Entrega Expressa via Uber Flash em Juazeiro, Crato e Barbalha!</span>
     </div>
 
-    <!-- HEADER ESTILO SHOPEE -->
+    <!-- HEADER CLARO E CLEAN -->
     <header class="navbar">
         <div class="nav-container">
             
@@ -27,10 +26,13 @@
                 </button>
             </div>
 
-            <!-- CENTRO: LOGOTIPO KARIRI -->
+            <!-- CENTRO: LOGOTIPO OFICIAL EM DESTAQUE -->
             <div class="nav-center">
-                <a href="#" class="logo">
-                    <span class="logo-highlight">KARIRI</span> SMART
+                <a href="#" class="logo-box">
+                    <img src="logo.png" alt="KARIRI Smart Gadgets" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-text-fallback').style.display='block';">
+                    <span id="logo-text-fallback" class="logo-fallback" style="display:none;">
+                        <span class="logo-highlight">KARIRI</span> SMART
+                    </span>
                 </a>
             </div>
 
@@ -57,7 +59,7 @@
         </div>
     </header>
 
-    <!-- DRAWER LATERAL: CATEGORIAS (ESQUERDA) -->
+    <!-- DRAWER LATERAL: CATEGORIAS -->
     <aside id="drawer-categorias" class="drawer drawer-left">
         <div class="drawer-header">
             <h3><i class="fa-solid fa-list"></i> Categorias</h3>
@@ -73,7 +75,7 @@
         </ul>
     </aside>
 
-    <!-- DRAWER LATERAL: PAINEL DO CLIENTE (DIREITA) -->
+    <!-- DRAWER LATERAL: PAINEL DO CLIENTE -->
     <aside id="drawer-cliente" class="drawer drawer-right">
         <div class="drawer-header">
             <h3><i class="fa-solid fa-user-gear"></i> Painel do Cliente</h3>
@@ -98,9 +100,7 @@
             <h3><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h3>
             <button class="btn-close" onclick="toggleCart()">&times;</button>
         </div>
-        <div id="carrinho-itens" class="drawer-content">
-            <!-- Itens inseridos via JS -->
-        </div>
+        <div id="carrinho-itens" class="drawer-content"></div>
         <div class="cart-footer">
             <div class="total-box">
                 <span>Total:</span>
@@ -110,10 +110,9 @@
         </div>
     </aside>
 
-    <!-- OVERLAY ESCURO PARA OS DRAWERS -->
     <div id="overlay" class="overlay" onclick="fecharTodosDrawers()"></div>
 
-    <!-- CONTEÚDO PRINCIPAL (CATÁLOGO DE PRODUTOS) -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="container">
         <section class="banner-hero">
             <h2>⚡ Pronta-Entrega no Cariri</h2>
@@ -124,20 +123,9 @@
             <h3 id="titulo-categoria">Todos os Produtos</h3>
         </section>
 
-        <div id="grid-produtos" class="product-grid">
-            <!-- Cards de Produtos Renderizados via JS do Supabase -->
-        </div>
+        <div id="grid-produtos" class="product-grid"></div>
     </main>
 
-    <!-- MODAL DE MÍDIA (FOTOS E VÍDEOS) -->
-    <div id="modal-midia" class="modal hidden">
-        <div class="modal-content">
-            <button class="btn-close-modal" onclick="fecharModalMidia()">&times;</button>
-            <div id="modal-midia-body"></div>
-        </div>
-    </div>
-
-    <!-- Supabase JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
 </body>
