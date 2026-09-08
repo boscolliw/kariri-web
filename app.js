@@ -1,9 +1,3 @@
-// CONFIGURAÇÃO CONEXÃO SUPABASE
-const SUPABASE_URL = "https://tehlejnqykjbtzjzrnit.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlaGxlam5xeWtqYnR6anpybml0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjE4OTMsImV4cCI6MjEwNDQzNzg5M30.UlbzIDeRzbgvBYJMFrqpwQKRtabO6i1nGP6s1yf6M84";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 let todosProdutos = [];
 let carrinho = [];
 
@@ -17,12 +11,13 @@ function toggleDrawer(id) {
     const drawer = document.getElementById(id);
     const overlay = document.getElementById("overlay");
     
+    if (!drawer) return;
     const estaAtivo = drawer.classList.contains("active");
     fecharTodosDrawers();
 
     if (!estaAtivo) {
         drawer.classList.add("active");
-        overlay.classList.add("active");
+        if (overlay) overlay.classList.add("active");
     }
 }
 
@@ -32,25 +27,30 @@ function toggleCart() {
 
 function fecharTodosDrawers() {
     document.querySelectorAll(".drawer").forEach(d => d.classList.remove("active"));
-    document.getElementById("overlay").classList.remove("active");
+    const overlay = document.getElementById("overlay");
+    if (overlay) overlay.classList.remove("active");
 }
 
-// BUSCAR PRODUTOS DO SUPABASE
+// BUSCAR PRODUTOS VIA API DO SERVIDOR
 async function carregarProdutos() {
-    const { data, error } = await supabaseClient.from("produtos").select("*").eq("ativo", true);
-    if (error) {
-        console.error("Erro ao carregar produtos:", error);
-        return;
+    try {
+        const response = await fetch('/api/produtos');
+        if (!response.ok) throw new Error('Falha ao carregar produtos');
+        
+        todosProdutos = await response.json();
+        renderizarProdutos(todosProdutos);
+    } catch (error) {
+        console.error("Erro:", error);
+        document.getElementById("grid-produtos").innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
     }
-    todosProdutos = data;
-    renderizarProdutos(todosProdutos);
 }
 
 function renderizarProdutos(lista) {
     const grid = document.getElementById("grid-produtos");
+    if (!grid) return;
     grid.innerHTML = "";
 
-    if (lista.length === 0) {
+    if (!lista || lista.length === 0) {
         grid.innerHTML = "<p>Nenhum produto encontrado nesta categoria.</p>";
         return;
     }
@@ -75,8 +75,10 @@ function renderizarProdutos(lista) {
 
 // FILTROS DE PESQUISA E CATEGORIA
 function filtrarPorCategoria(cat) {
-    document.getElementById("titulo-categoria").innerText = cat === "TODAS" ? "Todos os Produtos" : cat;
+    const titulo = document.getElementById("titulo-categoria");
+    if (titulo) titulo.innerText = cat === "TODAS" ? "Todos os Produtos" : cat;
     fecharTodosDrawers();
+    
     if (cat === "TODAS") {
         renderizarProdutos(todosProdutos);
     } else {
@@ -102,25 +104,29 @@ function adicionarAoCarrinho(id) {
 }
 
 function atualizarCarrinho() {
-    document.getElementById("cart-count").innerText = carrinho.length;
+    const badge = document.getElementById("cart-count");
+    if (badge) badge.innerText = carrinho.length;
+    
     const container = document.getElementById("carrinho-itens");
+    if (!container) return;
     container.innerHTML = "";
 
     let total = 0;
     carrinho.forEach((item, index) => {
         total += parseFloat(item.preco_venda);
         container.innerHTML += `
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; background:#121217; padding:8px; border-radius:4px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; background:#f5f5f5; padding:8px; border-radius:4px; border:1px solid #e0e0e0;">
                 <div>
                     <div><strong>${item.nome}</strong></div>
                     <div style="color:#ee4d2d;">R$ ${parseFloat(item.preco_venda).toFixed(2)}</div>
                 </div>
-                <button onclick="removerDoCarrinho(${index})" style="background:none; border:none; color:#dc3545; cursor:pointer;">&times;</button>
+                <button onclick="removerDoCarrinho(${index})" style="background:none; border:none; color:#dc3545; font-size:1.2rem; cursor:pointer;">&times;</button>
             </div>
         `;
     });
 
-    document.getElementById("cart-total").innerText = `R$ ${total.toFixed(2)}`;
+    const totalEl = document.getElementById("cart-total");
+    if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
 }
 
 function removerDoCarrinho(index) {
@@ -128,11 +134,18 @@ function removerDoCarrinho(index) {
     atualizarCarrinho();
 }
 
-// BUSCAR MURAL DE AVISOS TRANSMITIDO PELO PAINEL PYTHON
+// BUSCAR MURAL DE AVISOS
 async function carregarMuralAvisos() {
-    const { data } = await supabaseClient.from("comunicados").select("*").order("id", { ascending: false }).limit(1);
-    if (data && data.length > 0) {
-        document.getElementById("mural-texto").innerText = data[0].mensagem;
-        document.getElementById("mural-aviso").classList.remove("hidden");
+    try {
+        const response = await fetch('/api/comunicados');
+        const data = await response.json();
+        if (data && data.mensagem) {
+            const texto = document.getElementById("mural-texto");
+            const banner = document.getElementById("mural-aviso");
+            if (texto) texto.innerText = data.mensagem;
+            if (banner) banner.classList.remove("hidden");
+        }
+    } catch (e) {
+        console.error("Erro ao carregar comunicado:", e);
     }
 }
