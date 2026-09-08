@@ -14,19 +14,18 @@
         <span id="mural-texto">🚀 Entrega Expressa via Uber Flash em Juazeiro, Crato e Barbalha!</span>
     </div>
 
-    <!-- HEADER CLARO E CLEAN -->
+    <!-- HEADER CLARO COM CENTRALIZAÇÃO PERFEITA DA LOGO -->
     <header class="navbar">
         <div class="nav-container">
             
-            <!-- ESQUERDA: MENU RETRÁTIL DE CATEGORIAS -->
+            <!-- ESQUERDA: APENAS O ÍCONE DE MENU -->
             <div class="nav-left">
-                <button class="btn-drawer" onclick="toggleDrawer('drawer-categorias')">
+                <button class="btn-drawer-icon" onclick="toggleDrawer('drawer-categorias')" title="Categorias">
                     <i class="fa-solid fa-bars"></i>
-                    <span>Categorias</span>
                 </button>
             </div>
 
-            <!-- CENTRO: LOGOTIPO OFICIAL EM DESTAQUE -->
+            <!-- CENTRO: LOGOTIPO PERFEITAMENTE CENTRALIZADO -->
             <div class="nav-center">
                 <a href="#" class="logo-box">
                     <img src="logo.png" alt="KARIRI Smart Gadgets" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-text-fallback').style.display='block';">
@@ -36,15 +35,14 @@
                 </a>
             </div>
 
-            <!-- DIREITA: PAINEL DO CLIENTE & CARRINHO -->
+            <!-- DIREITA: PERFIL E CARRINHO -->
             <div class="nav-right">
                 <button class="btn-icon" onclick="toggleCart()">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="cart-count" class="badge">0</span>
                 </button>
-                <button class="btn-drawer" onclick="toggleDrawer('drawer-cliente')">
+                <button class="btn-drawer-icon" onclick="toggleDrawer('drawer-cliente')" title="Minha Conta">
                     <i class="fa-solid fa-user"></i>
-                    <span class="desktop-only">Minha Conta</span>
                 </button>
             </div>
 
@@ -58,6 +56,29 @@
             </div>
         </div>
     </header>
+
+    <!-- MODAL INICIAL DE BOAS-VINDAS / AUTH -->
+    <div id="modal-auth" class="modal-auth-overlay">
+        <div class="modal-auth-card">
+            <div class="modal-auth-header">
+                <img src="logo.png" alt="KARIRI" class="modal-logo" onerror="this.style.display='none';">
+                <h3>Bem-vindo à KARIRI!</h3>
+                <p>Escolha como deseja prosseguir para ver as melhores ofertas de automação no Cariri.</p>
+            </div>
+            
+            <div class="modal-auth-actions">
+                <button class="btn-auth btn-primary" onclick="acaoAuth('login')">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrar na minha Conta
+                </button>
+                <button class="btn-auth btn-secondary" onclick="acaoAuth('cadastro')">
+                    <i class="fa-solid fa-user-plus"></i> Criar Nova Conta
+                </button>
+                <button class="btn-auth btn-guest" onclick="fecharModalAuth()">
+                    Continuar como Visitante <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- DRAWER LATERAL: CATEGORIAS -->
     <aside id="drawer-categorias" class="drawer drawer-left">
@@ -84,11 +105,11 @@
         <div class="drawer-content">
             <div class="user-card">
                 <i class="fa-solid fa-circle-user avatar"></i>
-                <p><strong>Bem-vindo à KARIRI!</strong></p>
+                <p><strong id="user-display-name">Visitante</strong></p>
                 <small>Acompanhe seus pedidos em tempo real.</small>
             </div>
             <ul class="drawer-menu">
-                <li><a href="#" onclick="abrirMeusPedidos()"><i class="fa-solid fa-box-open"></i> Meus Pedidos & Uber Flash</a></li>
+                <li><a href="#" onclick="abrirModalAuth()"><i class="fa-solid fa-right-to-bracket"></i> Fazer Login / Cadastrar</a></li>
                 <li><a href="https://wa.me/5588994454554" target="_blank"><i class="fa-brands fa-whatsapp"></i> Suporte via WhatsApp</a></li>
             </ul>
         </div>
@@ -126,7 +147,6 @@
         <div id="grid-produtos" class="product-grid"></div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
 </body>
 </html>
