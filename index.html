@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARIRI Smart Gadgets | Automação e Tecnologia no Cariri</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- MURAL / BANNER DE AVISO (ALIMENTADO PELO SEU PAINEL PYTHON) -->
+    <div id="mural-aviso" class="mural-banner hidden">
+        <span id="mural-texto">🚀 Entrega Expressa via Uber Flash em Juazeiro, Crato e Barbalha!</span>
+    </div>
+
+    <!-- HEADER ESTILO SHOPEE -->
+    <header class="navbar">
+        <div class="nav-container">
+            
+            <!-- ESQUERDA: MENU RETRÁTIL DE CATEGORIAS -->
+            <div class="nav-left">
+                <button class="btn-drawer" onclick="toggleDrawer('drawer-categorias')">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>Categorias</span>
+                </button>
+            </div>
+
+            <!-- CENTRO: LOGOTIPO KARIRI -->
+            <div class="nav-center">
+                <a href="#" class="logo">
+                    <span class="logo-highlight">KARIRI</span> SMART
+                </a>
+            </div>
+
+            <!-- DIREITA: PAINEL DO CLIENTE & CARRINHO -->
+            <div class="nav-right">
+                <button class="btn-icon" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count" class="badge">0</span>
+                </button>
+                <button class="btn-drawer" onclick="toggleDrawer('drawer-cliente')">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="desktop-only">Minha Conta</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- BARRA DE BUSCA -->
+        <div class="search-bar-container">
+            <div class="search-input-box">
+                <input type="text" id="input-busca" placeholder="Buscar tomadas smart, relés, câmeras..." onkeyup="filtrarProdutos()">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- DRAWER LATERAL: CATEGORIAS (ESQUERDA) -->
+    <aside id="drawer-categorias" class="drawer drawer-left">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-list"></i> Categorias</h3>
+            <button class="btn-close" onclick="toggleDrawer('drawer-categorias')">&times;</button>
+        </div>
+        <ul class="drawer-menu">
+            <li><a href="#" onclick="filtrarPorCategoria('TODAS')"><i class="fa-solid fa-border-all"></i> Todas as Categorias</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Automação Residencial')"><i class="fa-solid fa-plug"></i> Automação Residencial</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Segurança & Câmeras')"><i class="fa-solid fa-shield-halved"></i> Segurança & Câmeras</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Gadgets & Áudio')"><i class="fa-solid fa-headphones"></i> Gadgets & Áudio</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Iluminação Smart')"><i class="fa-solid fa-lightbulb"></i> Iluminação Smart</a></li>
+            <li><a href="#" onclick="filtrarPorCategoria('Rastreadores & GPS')"><i class="fa-solid fa-location-dot"></i> Rastreadores & GPS</a></li>
+        </ul>
+    </aside>
+
+    <!-- DRAWER LATERAL: PAINEL DO CLIENTE (DIREITA) -->
+    <aside id="drawer-cliente" class="drawer drawer-right">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-user-gear"></i> Painel do Cliente</h3>
+            <button class="btn-close" onclick="toggleDrawer('drawer-cliente')">&times;</button>
+        </div>
+        <div class="drawer-content">
+            <div class="user-card">
+                <i class="fa-solid fa-circle-user avatar"></i>
+                <p><strong>Bem-vindo à KARIRI!</strong></p>
+                <small>Acompanhe seus pedidos em tempo real.</small>
+            </div>
+            <ul class="drawer-menu">
+                <li><a href="#" onclick="abrirMeusPedidos()"><i class="fa-solid fa-box-open"></i> Meus Pedidos & Uber Flash</a></li>
+                <li><a href="https://wa.me/5588994454554" target="_blank"><i class="fa-brands fa-whatsapp"></i> Suporte via WhatsApp</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- DRAWER LATERAL: CARRINHO DE COMPRAS -->
+    <aside id="drawer-carrinho" class="drawer drawer-right">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-cart-shopping"></i> Seu Carrinho</h3>
+            <button class="btn-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="carrinho-itens" class="drawer-content">
+            <!-- Itens inseridos via JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="total-box">
+                <span>Total:</span>
+                <strong id="cart-total">R$ 0,00</strong>
+            </div>
+            <button class="btn-checkout" onclick="finalizarPedido()">Finalizar Pedido (Uber Flash)</button>
+        </div>
+    </aside>
+
+    <!-- OVERLAY ESCURO PARA OS DRAWERS -->
+    <div id="overlay" class="overlay" onclick="fecharTodosDrawers()"></div>
+
+    <!-- CONTEÚDO PRINCIPAL (CATÁLOGO DE PRODUTOS) -->
+    <main class="container">
+        <section class="banner-hero">
+            <h2>⚡ Pronta-Entrega no Cariri</h2>
+            <p>Receba em até 30 minutos em Juazeiro, Crato e Barbalha via Uber Flash.</p>
+        </section>
+
+        <section class="catalog-header">
+            <h3 id="titulo-categoria">Todos os Produtos</h3>
+        </section>
+
+        <div id="grid-produtos" class="product-grid">
+            <!-- Cards de Produtos Renderizados via JS do Supabase -->
+        </div>
+    </main>
+
+    <!-- MODAL DE MÍDIA (FOTOS E VÍDEOS) -->
+    <div id="modal-midia" class="modal hidden">
+        <div class="modal-content">
+            <button class="btn-close-modal" onclick="fecharModalMidia()">&times;</button>
+            <div id="modal-midia-body"></div>
+        </div>
+    </div>
+
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
